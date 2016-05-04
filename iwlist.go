@@ -5,8 +5,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/k0kubun/pp"
 )
 
 type AccessPoints []AccessPoint
