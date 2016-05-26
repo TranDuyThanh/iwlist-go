@@ -1,8 +1,10 @@
 package iwlist
 
 import (
+	"errors"
 	"os/exec"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 )
@@ -56,8 +58,12 @@ func (this *AccessPoints) Match(essids ...string) *AccessPoints {
 	return &aps
 }
 
-func Scan(wInterface string) *AccessPoints {
+func Scan(wInterface string) (*AccessPoints, error) {
 	var accessPoints = AccessPoints{}
+
+	if runtime.GOOS == "darwin" {
+		return &accessPoints, errors.New("Cannot scan wifi with iwlist on MAC")
+	}
 
 	result, _ := execute("sudo", "iwlist", wInterface, "scanning")
 	elements := strings.Split(result, "Cell")
@@ -79,7 +85,7 @@ func Scan(wInterface string) *AccessPoints {
 		}
 	}
 
-	return &accessPoints
+	return &accessPoints, nil
 }
 
 func getMode(sample string) *string {
