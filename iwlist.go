@@ -71,7 +71,7 @@ func Scan(wInterface string) (*AccessPoints, error) {
 	var accessPoints = AccessPoints{}
 
 	if runtime.GOOS == "darwin" {
-		return &accessPoints, errors.New("Cannot scan wifi with iwlist on MAC")
+		return nil, errors.New("Cannot scan wifi with iwlist on MAC")
 	}
 
 	result, _ := execute("sudo", "iwlist", wInterface, "scanning")
