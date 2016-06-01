@@ -31,6 +31,9 @@ func (this *AccessPoints) BestQuality() *AccessPoint {
 			accessPoint = ap
 		}
 	}
+	if accessPoint.Address == nil {
+		return nil
+	}
 	return &accessPoint
 }
 
@@ -43,6 +46,9 @@ func (this *AccessPoints) BestSignalLevel() *AccessPoint {
 			accessPoint = ap
 		}
 	}
+	if accessPoint.Address == nil {
+		return nil
+	}
 	return &accessPoint
 }
 
@@ -54,6 +60,9 @@ func (this *AccessPoints) Match(essids ...string) *AccessPoints {
 				aps = append(aps, ap)
 			}
 		}
+	}
+	if len(aps) == 0 {
+		return nil
 	}
 	return &aps
 }
@@ -84,7 +93,9 @@ func Scan(wInterface string) (*AccessPoints, error) {
 			accessPoints = append(accessPoints, accessPoint)
 		}
 	}
-
+	if len(accessPoints) == 0 {
+		return nil, nil
+	}
 	return &accessPoints, nil
 }
 
